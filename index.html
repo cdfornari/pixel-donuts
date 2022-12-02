@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html data-theme="cupcake" class='scroll-smooth'>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🍩 Pixel Donuts</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+
+        .pixel-donuts {
+            font-family: 'Love Ya Like A Sister', cursive;
+        }
+    </style>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    
+    <div class="content">
+        <nav class="navbar bg-primary text-primary-content fixed z-50 justify-between">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <label tabindex="0" class="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                    </label>
+                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 bg-pink-200">
+                        <li>
+                            <a href='#hero'>
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a href='#about-us'>
+                                Historia
+                            </a>
+                        </li>
+                        <li>
+                            <a href='#products'>
+                                Productos
+                            </a>
+                        </li>
+                        <li>
+                            <a href='#info'>
+                                Información nutricional
+                            </a>
+                        </li>
+                        <li>
+                            <a href='#contact'> 
+                                Contacto
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#"  class="btn btn-ghost"><img src="https://i.imgur.com/6RTrj8A.png" alt="Logo" class="h-10 w-50"></a>
+            </div>
+
+            <div class="navbar-center hidden lg:flex"> 
+                <div class='flex flex-row space-x-2'>
+                    <a href='#hero'>
+                        <button class="btn btn-outline btn-sm">
+                            Inicio
+                        </button>
+                    </a>
+                    <a href='#about-us'>
+                        <button class="btn btn-outline btn-sm">
+                            Historia
+                        </button>
+                    </a>
+                    <a href='#products'>
+                        <button class="btn btn-outline btn-sm">
+                            Productos
+                        </button>
+                    </a>
+                    <a href='#info'>
+                        <button class="btn btn-outline btn-sm">
+                            Información nutricional
+                        </button>
+                    </a>
+                    <a href='#contact'>
+                        <button class="btn btn-outline btn-sm">
+                            Contacto
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="flex flex-row gap-2 items-center">
+                    <div class="btn-group">
+                        <button class="btn btn-sm" data-set-theme="cupcake" >
+                            🌞
+                        </button>
+                        <button class="btn btn-sm" data-set-theme="dracula">
+                            🌚
+                        </button>
+                    </div>
+                    <div class="dropdown dropdown-end">
+                        <label tabindex="0" class="btn btn-ghost btn-circle btn-sm">
+                            <div class="indicator">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                        </label>
+                        <div x-data tabindex="0" class="mt-3 card card-compact dropdown-content w-72 bg-pink-200 shadow ">
+                            <div class="card-body">
+                                <span class="font-bold text-lg" x-text="`Items: ${$store.cart.itemsCounter}`"></span>
+                                <template x-for="item in $store.cart.lista">
+                                    <li x-text="`${item.name} Bs ${item.price}`"></li>
+                                </template>
+                                <span class="text-info text-cyan-700" x-text="`Subtotal: Bs ${$store.cart.totalPrice()}`"></span>
+                                <div class="card-actions">
+                                    <button class="btn btn-primary btn-block">Ver Cesta de Compra</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown dropdown-end">
+                        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img src="https://media.glamour.mx/photos/62c3410b17f155c93e5798c2/3:4/w_2250,h_3000,c_limit/Eddie%20Munson-%20Stranger%20Things%204.jpg" />
+                            </div>
+                        </label>
+                        <ul tabindex="0"
+                            class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 bg-pink-200">
+                            <li><a class="justify-between">Perfil</a></li>
+                            <li><a>Configuración</a></li>
+                            <li><a>Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section id='hero'>
+            <div class="hero min-h-screen"
+            style="background-image: url(https://images.unsplash.com/photo-1626094309830-abbb0c99da4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80);">
+                <div id="tsparticles" class="w-full h-full"></div>
+                <div class="hero-content text-center text-neutral-content">
+                    <div class="card w-10/12 sm:w-full glass">
+                        <div class="card-body">
+                            <h2 class="card-title text-black text-7xl pixel-donuts">Pixel Donuts</h2>
+                            <p class="text-white">Las mejores donas del <span class="text-l"
+                                    style="text-decoration: line-through;">país</span> mundo mundial</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id='about-us' class='pt-20'>
+            <div class="card card-side bg-base-100 shadow-xl p-5 border-b-8 border-primary">
+                <figure><img  class="rounded-2xl" src="http://injapan.gaijinpot.com/wp-content/uploads/2012/11/p1170688-670x502.jpg" alt="Store"/></figure>
+                <div class="card-body">
+                  <h2 class="card-title text-2xl">Nuestra historia</h2>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ex esse ipsam soluta quia beatae expedita rem quibusdam exercitationem iure provident recusandae sequi tempore explicabo amet, deserunt maxime ab! Reprehenderit?.</p>
+                </div>
+            </div>             
+        </section>
+
+        <section class="store py-20" x-data="products" id='products'>
+            <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+                <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+                    <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+                        <h1 class="uppercase tracking-wide no-underline hover:no-underline font-bold text-xl"
+                            href="#">
+                            Nuestros Productos
+                        </h1>
+                        <div class="flex items-center" id="store-nav-content">
+                            <input type="search" x-model="search" placeholder="¿Qué quieres comer hoy?"
+                                class="input input-bordered input-primary input-md w-72" />
+
+                            <a class="pl-3 inline-block no-underline hover:text-black" href="#"
+                                @click.prevent="console.log('hey')">
+                                <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+                <template x-for="product in searchResults" :key="product.id">
+                    <div 
+                        class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col" 
+                        @click="selectedProduct=product"
+                    >
+                        <label for="product-details-modal" class="cursor-pointer card bg-base-100 shadow-xl">
+                            <img class="hover:grow hover:shadow-lg" :src="product.image">
+                            <div class='card-body'>
+                                <div class="pt-3 flex items-center justify-between">
+                                    <p x-text="product.name" class="font-bold"></p>
+                                </div>
+                                <div class="rating rating-sm">
+                                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled/>
+                                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled/>
+                                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled/>
+                                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled/>
+                                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" disabled/>
+                                </div>
+                                <div class='flex '>
+                                    <p class="pt-1 text-green-500">Bs <span x-text="formatPrice(product.price)"></span></p>
+                                    <p class="pt-1 line-through text-gray-500">Bs <span x-text="formatPrice(product.compPrice)"></span></p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </template>
+            </div>
+
+            <input type="checkbox" id="product-details-modal" class="modal-toggle"/>
+            <div x-data class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box">
+                    <h3 class="font-bold text-lg" x-text="selectedProduct?.name"></h3>
+                    <div class="w-24 mask mask-squircle">
+                        <img :src="selectedProduct?.image" alt="selectedProduct?.name" title="selectedProduct?.name" />
+                    </div>
+                    <p class="py-4">Precio: Bs <span class="font-bold" x-text="selectedProduct?.price"></span></p>
+                    <div class="alert alert-error shadow-lg">
+                        <div>
+                            <span class="text-3xl">😥</span>
+                            <span>Actualmente la tienda se encuentra cerrada</span>
+                        </div>
+                    </div>
+                    <div class="modal-action">
+                        <label @click="$store.cart.incItems(); $store.cart.addItem(selectedProduct); " for="product-details-modal" class="btn">Yay!</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id='info' class='px-10 pb-20'>
+            <h2
+                class='uppercase tracking-wide no-underline hover:no-underline font-bold text-xl mb-5'
+            >Información nutricional</h2>
+            <div class='flex justify-around gap-4 flex-col md:flex-row'>
+                <div class='card shadow-lg border-8 border-dashed border-primary w-full md:w-1/3 flex flex-col'>
+                    <div class='card-body'>
+                        <h3 class='card-title text-primary'>
+                            Ingredientes
+                        </h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore nemo corporis quia placeat tempore saepe molestias dignissimos mollitia aut id nobis, natus ratione assumenda? Similique, non eaque! Maxime, dolore facilis.
+                        </p>
+                    </div>
+                </div>
+                <div class='card shadow-lg border-8 border-dashed border-primary w-full md:w-1/3 flex flex-col'>
+                    <div class='card-body'>
+                        <h3 class='card-title text-primary'>
+                            Preparación
+                        </h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore nemo corporis quia placeat tempore saepe molestias dignissimos mollitia aut id nobis, natus ratione assumenda? Similique, non eaque! Maxime, dolore facilis.
+                        </p>
+                    </div>
+                </div>
+                <div class='card shadow-lg border-8 border-dashed border-primary w-full md:w-1/3 flex flex-col'>
+                    <div class='card-body'>
+                        <h3 class='card-title text-primary'>
+                            Estadísticas nutricionales
+                        </h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore nemo corporis quia placeat tempore saepe molestias dignissimos mollitia aut id nobis, natus ratione assumenda? Similique, non eaque! Maxime, dolore facilis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id='contact' class='px-10 pb-20'>
+            <h2
+                class='uppercase tracking-wide no-underline hover:no-underline font-bold text-xl mb-5'
+            >Contacto</h2>
+            <div class='flex gap-20'>
+                <div class='flex flex-col gap-6'>
+                    <div class='card glass'>
+                        <div class='card-body'>
+                            <h3 class='card-title'>
+                                Dirección
+                            </h3>
+                            <p class='card-text'>
+                                Plaza Madariaga, El Paraiso, Caracas
+                            </p>
+                        </div>
+                    </div>
+                    <div class='card glass'>
+                        <div class='card-body'>
+                            <h3 class='card-title'>
+                                Número telefónico
+                            </h3>
+                            <p class='card-text'>
+                                02124829068
+                            </p>
+                        </div>
+                    </div>
+                    <div class='card glass'>
+                        <div class='card-body'>
+                            <h3 class='card-title'>
+                                Email
+                            </h3>
+                            <p class='card-text'>
+                                contacto@pixeldonuts.com
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id='map' class="rounded-3xl" style='width: 600px; height: 400px;'></div>
+            </div>
+        </section>
+
+        <footer class="footer p-10 bg-base-200 text-base-content">
+            <div>
+                <span class="footer-title">La Tienda</span>
+                <a class="link link-hover">Donas</a>
+                <a class="link link-hover">Desayunos</a>
+                <a class="link link-hover">Bebidas</a>
+            </div>
+            <div>
+                <span class="footer-title">Compañía</span>
+                <a class="link link-hover">Sobre nosotros</a>
+                <a class="link link-hover">Contacto</a>
+                <a class="link link-hover">Empleos</a>
+            </div>
+            <div>
+                <span class="footer-title">Legal</span>
+                <a class="link link-hover">Términos de uso</a>
+                <a class="link link-hover">Política de Privacidad</a>
+                <a class="link link-hover">Política de uso de <i>cookies</i></a>
+            </div>
+        </footer>
+        <footer class="footer px-10 py-4 border-t bg-base-200 text-base-content border-base-300">
+            <div class="items-center grid-flow-col">
+                <p class="text-6xl">🍩</pc>
+                <p><span class="font-extrabold">Pixel Donuts</span><br />¡Las mejores donas del mundo mundial!</p>
+            </div>
+            <div class="md:place-self-center md:justify-self-end">
+                <div class="grid grid-flow-col gap-4">
+                    <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            class="fill-current">
+                            <path
+                                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
+                            </path>
+                        </svg></a>
+                    <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            class="fill-current">
+                            <path
+                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z">
+                            </path>
+                        </svg></a>
+                    <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            class="fill-current">
+                            <path
+                                d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z">
+                            </path>
+                        </svg></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.3.4/tsparticles.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        
+        const products = {
+            search: '',
+            items: [{
+                id: 1,
+                name: 'Donas Choco-Choco',
+                price: 9.99,
+                compPrice: 12.99,
+                image: 'https://images.unsplash.com/photo-1579761314336-f27ea6297ae1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 2,
+                name: 'PixelShake',
+                price: 14.75,
+                compPrice: 19.99,
+                image: 'https://images.unsplash.com/photo-1525059337994-6f2a1311b4d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 3,
+                name: 'Triple Donas (sabores surtidos)',
+                price: 20.00,
+                compPrice: 25.00,
+                image: 'https://images.unsplash.com/photo-1570352412018-d4ad8dd88b75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 10,
+                name: 'Surtidonas (Variadas)',
+                price: 65.00,
+                compPrice: 75.00,
+                image: 'https://images.unsplash.com/photo-1560106952-abd9130296c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 9,
+                name: 'Donas Primavera',
+                price: 149.99,
+                compPrice: 199.99,
+                image: 'https://images.unsplash.com/photo-1624300162353-4638839fbfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 100,
+                name: 'Fiesta Donas (Pack 7)',
+                price: 139.99,
+                compPrice: 199.99,
+                image: 'https://images.unsplash.com/photo-1631397833256-34809ae27872?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 19,
+                name: 'Fiesta Donas (Pack Deluxe) ',
+                price: 45.00,
+                compPrice: 55.00,
+                image: 'https://images.unsplash.com/photo-1631397832307-d8344ff719f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 21,
+                name: 'Fiesta Donas (Pack 3)',
+                price: 79.50,
+                compPrice: 99.99,
+                image: 'https://images.unsplash.com/photo-1631397833242-fc6213046352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 22,
+                name: 'Donas de Otoño (Pack 3)',
+                price: 80.00,
+                compPrice: 99.99,
+                image: 'https://images.unsplash.com/photo-1631397833237-718c8d914d20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 89,
+                name: 'Crazy Mix',
+                price: 50.00,
+                compPrice: 60.00,
+                image: 'https://images.unsplash.com/photo-1619286310195-9d8789686f6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 167,
+                name: 'Sweety Duo',
+                price: 45.00,
+                compPrice: 55.00,
+                image: 'https://images.unsplash.com/photo-1649035570125-fc9c965cc51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 143,
+                name: 'Lovers Triple Pack',
+                price: 79.00,
+                compPrice: 99.99,
+                image: 'https://images.unsplash.com/photo-1643312769686-00759ba75d7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 1222,
+                name: 'Happy Donas (Pack 3)',
+                price: 60.00,
+                compPrice: 70.00,
+                image: 'https://images.unsplash.com/photo-1606312618475-79449b044093?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 1009,
+                name: 'Donas Primavera (Edición 2022',
+                price: 150.00,
+                compPrice: 200.00,
+                image: 'https://images.unsplash.com/photo-1602419260650-697189b3d7db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 189,
+                name: 'Surtidonas (Pack 4)',
+                price: 124.99,
+                compPrice: 149.99,
+                image: 'https://images.unsplash.com/photo-1597586255676-6b33b6268e33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 198,
+                name: 'Season Donut (1 unidad)',
+                price: 39.45,
+                compPrice: 49.99,
+                image: 'https://images.unsplash.com/photo-1612240498936-65f5101365d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 177,
+                name: 'Mini Donas (Pack 12)',
+                price: 130.00,
+                compPrice: 150.00,
+                image: 'https://images.unsplash.com/photo-1509474520651-53cf6a80536f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }, {
+                id: 1977,
+                name: 'Donas de Homero (Pack 4)',
+                price: 80.00,
+                compPrice: 99.99,
+                image: 'https://images.unsplash.com/photo-1464347477106-7648bc26261b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400&q=80',
+            }],
+            get searchResults() {
+                return this.items.filter(
+                    product => product.name.toLowerCase().includes(this.search.toLowerCase())
+                );
+            },
+            formatPrice(price) {
+                return parseFloat(parseFloat(price).toFixed(2)).toLocaleString(
+                    'es-VE',
+                    {
+                        useGrouping: true,
+                    },
+                );
+            },
+            selectedProduct: {},
+        };
+        const getCountry = () => window.localStorage.getItem('country')
+        const setCountry = (country) => window.localStorage.setItem('country',country)
+        let selectedCountry = getCountry();
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('cart', {
+                itemsCounter: 0,
+                lista: [],
+                incItems() {
+                    this.itemsCounter++;
+                },
+                addItem(Item){
+                    this.lista = [...this.lista, Item];
+                },
+                totalPrice(){
+                    let total = 0;
+                    this.lista.forEach(item => {
+                        total += item.price;
+                    });
+                    return total;
+                }
+            })
+        })
+    </script>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2Zvcm5hIiwiYSI6ImNrc3dyMnV0eDA4aW8zMG1zbGQ2ZmFsbHEifQ.UFptdz67oQISn_7gULC73w';
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            center: [-66.924913, 10.491711], // starting position [lng, lat]
+            zoom: 15, // starting zoom
+        });
+        const marker = new mapboxgl.Marker()
+            .setLngLat([-66.924913, 10.491711])
+            .addTo(map);
+    </script>
+
+</body>
+
+</html>

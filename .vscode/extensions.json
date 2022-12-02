@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "adrianwilczynski.alpine-js-intellisense",
+        "austenc.tailwind-docs",
+        "bradlc.vscode-tailwindcss",
+        "EditorConfig.EditorConfig",
+        "oderwat.indent-rainbow",
+        "ms-vscode.live-server"
+    ]
+}
