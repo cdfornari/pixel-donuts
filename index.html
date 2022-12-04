@@ -226,14 +226,8 @@
                         <img :src="selectedProduct?.image" alt="selectedProduct?.name" title="selectedProduct?.name" />
                     </div>
                     <p class="py-4">Precio: Bs <span class="font-bold" x-text="selectedProduct?.price"></span></p>
-                    <div class="alert alert-error shadow-lg">
-                        <div>
-                            <span class="text-3xl">😥</span>
-                            <span>Actualmente la tienda se encuentra cerrada</span>
-                        </div>
-                    </div>
                     <div class="modal-action">
-                        <label @click="$store.cart.incItems(); $store.cart.addItem(selectedProduct); " for="product-details-modal" class="btn">Yay!</label>
+                        <label @click="$store.cart.incItems(); $store.cart.addItem(selectedProduct); " for="product-details-modal" class="btn">Agregar al carrito</label>
                     </div>
                 </div>
             </div>
